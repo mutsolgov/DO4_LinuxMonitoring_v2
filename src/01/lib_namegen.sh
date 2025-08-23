@@ -15,3 +15,19 @@ generate_name() {
         chars[i]="${letters:i:1}"
     done
 
+    # Начинаем с одной копии каждой буквы в порядке
+    local name=""
+    for c in "${chars[@]}"; do
+        name+="$c"
+    done
+
+    # Добавляем буквы в порядке, пока не достигнем min_len
+    local idx=0
+    while [ "${#name}" -lt "$min_len" ]; do
+        name+="${chars[idx]}"
+        idx=$(( (idx + 1) % ${#chars[@]} ))
+    done
+
+    echo "$name"
+}
+
