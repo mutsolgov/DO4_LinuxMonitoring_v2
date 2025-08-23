@@ -31,3 +31,18 @@ generate_name() {
     echo "$name"
 }
 
+# generate_ext <letters> <max_len>
+# Похожая логика для расширения - возвращает строку длиной >= len(letters) и <= max_len
+# Если letters длина > max_len - это ошибка обработанная ранее.
+generate_ext() {
+    local letters="$1"
+    local max_len="$2"
+    letters=$(echo "$letters" | tr '[:upper:]' '[:lower:]')
+    local base
+    base=$(generate_name "$letters" "${#letters}")
+    # обрезаем, если получилось длинее max_len, но при этом нужно сохранить порядок букв:
+    if [ "${#base}" -gt "$max_len" ]; then
+        base="${base:0:$max_len}"
+    fi
+    echo "$base"
+}
