@@ -19,3 +19,16 @@ check_free_space() {
     return 0
 }
 
+# create_file <fullpath> <size_kb>
+# Создает файл заданного размера (в KB) и возвращает 0 или 1 при ошибке.
+create_file_of_size() {
+    local fpath="$1"
+    local size_kb="$2"
+    # используем ddдля переносимости
+    dd if=/dev/zero of="$fpath" bs=1024 count="$size_kb" status=none 2>/dev/null
+    if [ $? -ne 0 ]; then
+        return 1
+    fi
+    return 0
+}
+
