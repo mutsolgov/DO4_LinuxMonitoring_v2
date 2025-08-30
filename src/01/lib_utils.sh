@@ -32,3 +32,24 @@ create_file_of_size() {
     return 0
 }
 
+# log_entry <message>
+# Пишет строчку в лог. Имя лога задается глобально переменной LOGFILE
+log_entry() {
+    local msg="$1"
+    echo "$msg" >> "$LOGFILE"
+}
+
+# safe_mkdir <dirpath>
+# Создает папку (mkdir -p) и логирует ее создание
+safe_mkdir() {
+    local d="$1"
+    mkdir -p "$d"
+    if [ $? -ne 0 ]; then
+        echo "Ошибка: не могу создать каталог $d" >&2
+        return 1
+    fi
+    local dt
+    dt=$(date '+%F %T')
+    log_entry "DIR|$d|$dt|-"
+    return 0
+}
