@@ -73,4 +73,21 @@ fi
 NAME_LETTERS="${FILE_LETTERS%%.*}"
 EXT_LETTERS="${FILE_LETTERS##*.}"
 
+# 6) SIZE_PARAM like 'Nkb' and N<=100
+if ! [[ "$SIZE_PARAM" =~ ^([0-9]{1,3})([kK][bB])$ ]]; then
+    echo "Ошибка: SIZE должен быть формата Nkb (например 3kb)." >&2
+    exit 1
+fi
+SIZE_KB="${BASH_REMATCH[1]}"
+if [ "$SIZE_KB" -le 0 ] || [ "$SIZE_KB" -gt 100 ]; then
+    echo "Ошибка: SIZE должен быть в диапазоне 1...100 KB." >&2
+    exit 1
+fi
+
+# Создаем базовую папку, если нужно
+mkdir -p "$BASE_PATH" || { echo "Не удалось создать.достать $BASE_PATH"; exit 1; }
+
+# Лог-файл в BASE_PATH/generator.log
+LOGFILE="$BASE_PATH/generator.log"
+touch "$LOGFILE" || { echo "Не могу создать лог $LOGFILE"; exit 1; }
 
