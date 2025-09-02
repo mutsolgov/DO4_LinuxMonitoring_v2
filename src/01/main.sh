@@ -91,3 +91,53 @@ mkdir -p "$BASE_PATH" || { echo "Не удалось создать.достат
 LOGFILE="$BASE_PATH/generator.log"
 touch "$LOGFILE" || { echo "Не могу создать лог $LOGFILE"; exit 1; }
 
+# Текущая дата для суффикса (DDMMYY)
+DATE_SUFFIX=$(date '+%d%m%y')
+
+# ===== Основной цикл: создаем цепочку вложенных каталогов =====
+current_path="$BASE_PATH"
+
+# Чтобы имена файлов были различны в одной папке - будем варьировать min_len
+for (( depth_i=1; depth_i<=DEPTH; depth_i++ )); do
+    # Проверка места
+    if ! check_free_space; then
+        echo "Доступное место на / ≤ 1GB - остановка." >&2
+        exit 2
+    fi
+
+    # Генерация имени папки (минимальная длина 4)
+    folder_base=$(generate_name "$FOLDER_LETTERS" 4)
+    folder_name="${folder_base}_${DATE_SUFFIX}"
+    current_path="$current_path/$folder_name"
+
+    safe_mkdir "$current_path" || exit 1
+
+    # Создаем файлы в этой папке
+    for (( f=1; f<=FILES_PER_FOLDER; f++ )); do
+        if ! check_free_space; then
+            echo "Доступное место на / ≤ 1GB - остановка." >&2
+            exit 2
+        fi
+
+        # Для уникальности увеличиваем длину имени на f (чтобы получить разные имена)
+        file_base=$(generate_name "$NAME_LETTERS" $((4 + (f-1))))
+        file_name="${file_base}_${DATE_SUFFIX}"
+        # генерируем расширение (максимум 3 символа)
+        file_ext=$(generate_ext "$EXT_LETTERS" 3)
+        fullfile="$current_path/${file_name}.${file_ext}"
+
+        # Создаем файл указанного размера
+        if create_file_of_size "$fullfile" "$SIZE_KB"; then
+            local_dt=$(date '+%F %T')
+            # размер в байтах
+            size_bytes=$(stat -c%s "$fullfile" 2>/dev/null || echo "$((SIZE_KB*1024))")
+            # Запись в лог: TYPE|PATH|DATE|SIZE_BYTES
+            log_entry "FILE|$fullfile|$local_dt|$size_bytes"
+        else
+            echo "Ошибка при создании файла $fullfile" >&2
+        fi
+    done
+done
+
+echo "Готово. Лог: $LOGFILE"
+exit 0
