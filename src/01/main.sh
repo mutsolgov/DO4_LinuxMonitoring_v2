@@ -40,3 +40,22 @@ FILES_PER_FOLDER="$4"
 FILE_LETTERS="$5"
 SIZE_PARAM="$6"
 
+# Проверки
+# 1) BASE_PATH абсолютный
+if [[ "$BASE_PATH" != /* ]]; then
+    echo "Ошибка: параметр 1 должен быть абсолютным путем." >&2
+    exit 1
+fi
+
+# 2) DEPTH integer >0
+if ! [[ "$DEPTH" =~ ^[0-9]+$ ]] || [ "$DEPTH" -le 0 ]; then
+    echo "Ошибка: DEPTH должен быть положительным целым." >&2
+    exit 1
+fi
+
+# 3) FOLDER_LETTERS only letters, len <=7
+if ! [[ "$FOLDER_LETTERS" =~ ^[A-Za-z]+$ ]] || [ "${#FOLDER_LETTERS}" -gt 7 ]; then
+    echo "Ошибка: FOLDER_LETTERS - только латинские буквы, не более 7." >&2
+    exit 1
+fi
+
