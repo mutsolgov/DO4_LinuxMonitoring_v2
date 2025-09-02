@@ -59,3 +59,18 @@ if ! [[ "$FOLDER_LETTERS" =~ ^[A-Za-z]+$ ]] || [ "${#FOLDER_LETTERS}" -gt 7 ]; t
     exit 1
 fi
 
+# 4) FILES_PER_FOLDER integer >0
+if ! [[ "$FILES_PER_FOLDER" =~ ^[0-9]+$ ]] || [ "$FILES_PER_FOLDER" -le 0 ]; then
+    echo "Ошибка: FILES_PER_FOLDER должен быть положительным целым." >&2
+    exit 1
+fi
+
+# 5) FILE_LETTERS format name.ext
+if ! [[ "$FILE_LETTERS" =~ ^[A-Za-z]{1,7}\.[A-Za-z]{1,3}$ ]]; then
+    echo "Ошибка: FILE_LETTERS должен быть формата nameletters.extletters (name ≤7, ext ≤3)." >&2
+    exit 1
+fi
+NAME_LETTERS="${FILE_LETTERS%%.*}"
+EXT_LETTERS="${FILE_LETTERS##*.}"
+
+
