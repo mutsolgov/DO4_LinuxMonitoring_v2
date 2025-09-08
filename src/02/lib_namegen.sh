@@ -32,3 +32,11 @@ generate_name() {
     echo "$name"
 }
 
+# generate_ext <letters> <max_len>
+generate_ext() {
+    local letters="$1"
+    local max_len="$2"
+    letters=$(echo "$letters" | tr '[:upper:]' '[:lower:]')
+    local base
+    base=$(generate_name "$letters" "${#letters}")
+  
