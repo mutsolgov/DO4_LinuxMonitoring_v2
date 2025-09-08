@@ -39,4 +39,8 @@ generate_ext() {
     letters=$(echo "$letters" | tr '[:upper:]' '[:lower:]')
     local base
     base=$(generate_name "$letters" "${#letters}")
-  
+    if [ "${#base}" -gt "$max_len" ]; then
+        base="${base:0:$max_len}"
+    fi
+    echo "$base"
+}
