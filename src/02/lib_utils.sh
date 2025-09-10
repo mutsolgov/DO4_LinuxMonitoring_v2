@@ -32,3 +32,8 @@ create_file_mb() {
     return $?
 }
 
+#log_entry <msg> (LOGFILE должен быть установлен глобально)
+log_entry() {
+    local msg="$1"
+    echo "$msg" >> "$LOGFILE"
+}
