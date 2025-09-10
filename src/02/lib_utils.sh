@@ -22,3 +22,13 @@ check_free_space() {
     return 0
 }
 
+# Создаем файла размера MB (используем dd)
+# create_file_mb <path> <size_mb>
+create_file_mb() {
+    local path="$1"
+    local size_mb="$2"
+    # используем dd с bs=1M
+    dd if=/dev/zero of="$path" bs=1M count="$size_mb" status=none 2>/dev/null
+    return $?
+}
+
