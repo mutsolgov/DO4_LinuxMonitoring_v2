@@ -28,3 +28,14 @@ FOLDER_LETTERS="$1"
 FILE_LETTERS="$2"   # формат name.ext
 SIZE_PARAM="$3"     # например 3Mb или 10Mb
 
+# Валидация
+if ! [[ "$FOLDER_LETTERS" =~ ^[A-Za-z]{1,7}$ ]]; then
+    echo "Ошибка: FOLDER_LETTERS - только латиница, 1..7 символов." >&2
+    exit 1
+fi
+
+if ! [[ "$FILE_LETTERS" =~ ^[A-Za-z]{1,7}\.[A-Za-z]{1,3}$ ]]; then
+    echo "Ошибка: FILE_LETTERS должен быть формата name.ext (name ≤7, ext ≤3)." >&2
+    exit 1
+fi
+
