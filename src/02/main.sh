@@ -60,3 +60,17 @@ RUN_DANGEROUS="${RUN_DANGEROUS:-1}"
 # Порог свободного места (в KB).
 FREE_LIMIT_KB="${FREE_LIMIT_KB:-1048576}"
 
+# Параметры генерации
+DATE_SUFFIX=$(date '+%d%m%y')
+LOGROOT="${PWD}"
+LOGFILE="$LOGROOT/generator.log"
+touch "$LOGFILE"
+
+# куда писать.....
+BASE_DIRS=(/tmp /var/tmp /opt /srv /home)
+
+# ограничения: глубина до 100
+MAX_DEPTH=100
+# максимальное случайное число файлов в папке (можно изменить)
+MAX_FILES_PER_FOLDER=12
+
