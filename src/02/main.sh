@@ -39,3 +39,13 @@ if ! [[ "$FILE_LETTERS" =~ ^[A-Za-z]{1,7}\.[A-Za-z]{1,3}$ ]]; then
     exit 1
 fi
 
+if ! [[ "$SIZE_PARAM" =~ ^([0-9]{1,3})([mM][bB])$ ]]; then
+    echo "Ошибка: SIZE должен быть формата NMb, где N 1..100." >&2
+    exit 1
+fi
+SIZE_MB="${BASH_REMATCH[1]}"
+if [ "$SIZE_MB" -le 0 ] || [ "$SIZE_MB" -gt 100 ]; then
+    echo "Ошибка: SIZE: должен быть в диапазоне 1..100 MB." >&2
+    exit 1
+fi
+
