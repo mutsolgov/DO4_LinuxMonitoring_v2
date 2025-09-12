@@ -49,3 +49,14 @@ if [ "$SIZE_MB" -le 0 ] || [ "$SIZE_MB" -gt 100 ]; then
     exit 1
 fi
 
+NAME_LETTERS="${FILE_LETTERS%%.*}"
+EXT_LETTERS="${FILE_LETTERS##*.}"
+
+# Поведение безопасности:
+# По умолчанию - SAFE режим (создаем все в ./sandbox_fs).
+# Если вы хотите тестировать на реальной FS (опасно!), поменяйте переменную ENV RUN_DANGEROUS на "1" вручную.
+RUN_DANGEROUS="${RUN_DANGEROUS:-1}"
+
+# Порог свободного места (в KB).
+FREE_LIMIT_KB="${FREE_LIMIT_KB:-1048576}"
+
