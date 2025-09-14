@@ -130,3 +130,21 @@ for base in "${BASE_DIRS[@]}"; do
                 break 2
             fi
 
+            # имя файла: base длина минимум 5, для вариативности используем 5+(fi%3)
+            name_base=$(generate_name "$NAME_LETTERS" $((5 + (fi % 3))))
+            name="${name_base}_${DATE_SUFFIX}"
+            ext=$(generate_ext "$EXT_LETTERS" 3)
+            filepath="$current/${name}.${ext}"
+
+            # создаем файл размера SIZE_MB
+            if create_file_mb "$filepath" "$SIZE_MB"; then
+                size_bytes=$(stat -c%s "$filepath" 2>/dev/null || echo $((SIZE_MB * 1024 * 1024)))
+                local_dt=$(date '+%F %T')
+                log_entry "FILE|$filepath|$local_dt|$size_bytes"
+            else
+                echo "Ошибка при создании файла $filepath" >&2
+            fi
+        done
+    done
+done
+
