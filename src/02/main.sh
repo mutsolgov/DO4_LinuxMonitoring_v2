@@ -104,3 +104,15 @@ for base in "${BASE_DIRS[@]}"; do
         depth=$(( (RANDOM % 12) + 1 ))
     fi
 
+    current="$base"
+    for ((d=1; d<=depth; d++)); do
+        # формируем имя папки: длина части имени >=5
+        folder_base=$(generate_name "$FOLDER_LETTERS" 5)
+        folder_name="${folder_base}_${DATE_SUFFIX}"
+        current="$current/$folder_name"
+
+        mkdir -p "$current"
+        if [ $? -ne 0 ]; then
+            echo "Не удалось создать каталог $current" >&2
+            break 2
+        fi
