@@ -88,3 +88,19 @@ for base in "${BASE_DIRS[@]}"; do
     mkdir -p "$base"
 done
 
+# Основной генератор
+# Для каждого базового каталога создаем случайную вложенную цепочку (глубина 1..MAX_DEPTH)
+for base in "${BASE_DIRS[@]}"; do
+    # проверка места
+    if ! check_free_space "$FREE_LIMIT_KB"; then
+        echo "Свободное место на / ≤ $FREE_LIMIT_KB KB - остановка." >&2
+        break
+    fi
+
+    # случайная глубина от 1 до MAX_DEPTH (чтобы тесты не были слишком долгим, в SAFE режиме ограничим 12)
+    if [ "$RUN_DANGEROUS" -eq 1 ]; then
+        depth=$(( (RANDOM % MAX_DEPTH) + 1 ))
+    else
+        depth=$(( (RANDOM % 12) + 1 ))
+    fi
+
