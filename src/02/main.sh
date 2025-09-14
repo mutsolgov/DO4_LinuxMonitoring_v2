@@ -79,3 +79,12 @@ START_TIME=$(date '+%s')
 START_TIME_H=$(date '+%F %T')
 log_entry "START|$START_TIME_H|FREE_LIMIT_KB=$FREE_LIMIT_KB|RUN_DANGEROUS=$RUN_DANGEROUS"
 
+# создаем базовые каталоги
+for base in "${BASE_DIRS[@]}"; do
+    if [[ "$base" =~ bin|sbin ]]; then
+        echo "Пропускаем путь: $base" >&2
+        continue
+    fi
+    mkdir -p "$base"
+done
+
