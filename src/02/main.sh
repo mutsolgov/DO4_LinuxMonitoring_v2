@@ -74,3 +74,8 @@ MAX_DEPTH=100
 # максимальное случайное число файлов в папке (можно изменить)
 MAX_FILES_PER_FOLDER=12
 
+# Стартовые метрики
+START_TIME=$(date '+%s')
+START_TIME_H=$(date '+%F %T')
+log_entry "START|$START_TIME_H|FREE_LIMIT_KB=$FREE_LIMIT_KB|RUN_DANGEROUS=$RUN_DANGEROUS"
+
