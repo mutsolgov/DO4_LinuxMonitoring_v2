@@ -116,3 +116,17 @@ for base in "${BASE_DIRS[@]}"; do
             echo "Не удалось создать каталог $current" >&2
             break 2
         fi
+        local_dt=$(date '+%F %T')
+        log_entry "DIR|$current|$local_dt|-"
+
+        # случайное число файлов 1..MAX_FILES_PER_FOLDER
+        files_count=$(( (RANDOM % MAX_FILES_PER_FOLDER) + 1 ))
+
+        for ((fi=1; fi<=files_count; fi++)); do
+            # перед созданием каждого файла - проверка доступности места
+            if ! check_free_space "$FREE_LIMIT_KB"; then
+                echo "Свободное место на / ≤ $FREE_LIMIT_KB KB - остановка." >&2
+                goto_end=1
+                break 2
+            fi
+
