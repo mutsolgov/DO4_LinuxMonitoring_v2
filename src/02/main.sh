@@ -152,5 +152,7 @@ done
 END_TIME=$(date '+%s')
 END_TIME_H=$(date '+%F %T')
 DURATION=$((END_TIME - START_TIME))
-
+# Чтение человекочитаемого формата
+hours=$((DURATION/3600)); mins=$(((DURATION%3600)/60)); secs=$((DURATION%60))
+duration_h=$(printf "%02dh:%02dm:%02ds" "$hours" "$mins" "$secs")
 
