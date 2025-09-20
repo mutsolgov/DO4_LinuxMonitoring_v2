@@ -148,3 +148,9 @@ for base in "${BASE_DIRS[@]}"; do
     done
 done
 
+
+END_TIME=$(date '+%s')
+END_TIME_H=$(date '+%F %T')
+DURATION=$((END_TIME - START_TIME))
+
+
