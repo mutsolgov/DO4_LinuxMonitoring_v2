@@ -156,3 +156,11 @@ DURATION=$((END_TIME - START_TIME))
 hours=$((DURATION/3600)); mins=$(((DURATION%3600)/60)); secs=$((DURATION%60))
 duration_h=$(printf "%02dh:%02dm:%02ds" "$hours" "$mins" "$secs")
 
+echo "Start: $START_TIME_H"
+echo "End: $END_TIME_H"
+echo "Total: $duration_h"
+
+log_entry "END|$END_TIME_H|DURATION=$duration_h"
+echo "Лог: $LOGFILE"
+exit 0
+
