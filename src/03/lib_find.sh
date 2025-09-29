@@ -13,4 +13,9 @@ parse_log() {
     tmp_files=$(mktemp) || return 1
     tmp_dirs=$(mktemp) || return 1
 
-   
+    while IFS= read -r line || [ -n "$line" ]; do
+        [ -z "$line" ] && continue
+        # разделяем строку по |
+        IFS='|' read -r typ path rest <<< "$line"
+        # убираем ведущие/замыкающие пробелы
+        path="$(echo "$path" | sed -e 's/^[[:space:]]*//' -e 's/
