@@ -18,4 +18,12 @@ parse_log() {
         # разделяем строку по |
         IFS='|' read -r typ path rest <<< "$line"
         # убираем ведущие/замыкающие пробелы
-        path="$(echo "$path" | sed -e 's/^[[:space:]]*//' -e 's/
+        path="$(echo "$path" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+        [ -z "$path" ] && continue
+        if [ "$typ" = "FILE" ]; then
+            printf '%s\0' "$path" >> "$tmp_files"
+        elif [ "$typ" = "DIR" ]; then
+            printf '%s\0' "$path" >> "$tmp_dirs"
+        fi
+    done < "$logpath"
+
