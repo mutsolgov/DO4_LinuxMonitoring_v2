@@ -48,3 +48,10 @@ PY < "tmp_dirs"
     return 0
 }
 
+# find_by_time <basedir> <start> <end> -> печатает files null-terminated, разделитель, dirs null-terminated
+find_by_time() {
+    local base="$1"; local start="$2"; local end="$3"
+    local tf td
+    tf=$(mktemp) || return 1
+    td=$(mktemp) || return 1
+
