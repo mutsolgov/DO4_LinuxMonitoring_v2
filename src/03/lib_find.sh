@@ -55,3 +55,7 @@ find_by_time() {
     tf=$(mktemp) || return 1
     td=$(mktemp) || return 1
 
+    # используем find -newermt (mtime внутри интервала start <= mtime < end)
+    find "$base" -type f -newermt "$start" ! -newermt "$end" - print0 > "$tf" 2>/dev/null || true
+    find "$base" -type d -newermt "$start" ! -newermt "$end" - print0 > "$td" 2>/dev/null || true
+
