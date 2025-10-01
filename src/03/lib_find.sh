@@ -44,3 +44,7 @@ dirs.sort(key=lambda s: -len(s))
 sys.stdout.write('\0'.join(dirs).encode().decode() + '\0')
 PY < "tmp_dirs"
 
+    rm -f "$tmp_files" "$tmp_dirs" "$tmpf"
+    return 0
+}
+
