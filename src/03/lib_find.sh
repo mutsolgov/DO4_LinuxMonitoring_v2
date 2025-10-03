@@ -59,3 +59,13 @@ find_by_time() {
     find "$base" -type f -newermt "$start" ! -newermt "$end" - print0 > "$tf" 2>/dev/null || true
     find "$base" -type d -newermt "$start" ! -newermt "$end" - print0 > "$td" 2>/dev/null || true
 
+    # подсчет и вывод превью делаем в main, тут просто выдаем потоки
+    cat "$tf"
+    printf '\0'
+    # сорт dirs by length desc using python if available
+    python3 - <<PY 2>/dev/null || {
+        cat "$td"
+        rm -f "$tf" "$td"
+        return 0
+    }
+
