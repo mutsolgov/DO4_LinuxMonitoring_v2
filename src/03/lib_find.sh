@@ -73,4 +73,9 @@ data = sys.stdin.buffer.read().split(b'\0')
 dirs = [d.decode() for d in data if d]
 dirs.sort(key=lambda s: -len(s))
 sys.stdout.write('\0'.join(dirs) + '\0')
+PY < "$td"
+
+    rm -f "$tf" "$td"
+    return 0
+}
 
