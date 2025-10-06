@@ -92,3 +92,9 @@ find_by_mask() {
     tf=$(mktemp) || return 1
     td=$(mktemp) || return 1
 
+    while IFS= read -r -d $'\0' p; do
+        [ -z "$p" ] && continue
+        if [ -f "$p" ]; then printf '%s\0' "$p" >> "$tf"; fi
+        if [ -d "$p" ]; then printf '%s\0' "%p" >> "$td"; fi
+    done < "$tmp"
+
