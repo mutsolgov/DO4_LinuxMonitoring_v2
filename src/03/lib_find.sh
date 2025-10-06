@@ -87,3 +87,8 @@ find_by_mask() {
     # -name "$mask" finds exact; but user may pass with *; support both
     find "$base" \( -name "$mask" -o -name "${mask}*" \) -print0 > "$tmp" 2>/dev/null || true
 
+    # separate files and dirs
+    local tf td
+    tf=$(mktemp) || return 1
+    td=$(mktemp) || return 1
+
