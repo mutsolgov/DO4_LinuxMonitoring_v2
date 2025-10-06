@@ -55,3 +55,35 @@ find_by_time() {
     tf=$(mktemp) || return 1
     td=$(mktemp) || return 1
 
+    # используем find -newermt (mtime внутри интервала start <= mtime < end)
+    find "$base" -type f -newermt "$start" ! -newermt "$end" - print0 > "$tf" 2>/dev/null || true
+    find "$base" -type d -newermt "$start" ! -newermt "$end" - print0 > "$td" 2>/dev/null || true
+
+    # подсчет и вывод превью делаем в main, тут просто выдаем потоки
+    cat "$tf"
+    printf '\0'
+    # сорт dirs by length desc using python if available
+    python3 - <<PY 2>/dev/null || {
+        cat "$td"
+        rm -f "$tf" "$td"
+        return 0
+    }
+import sys
+data = sys.stdin.buffer.read().split(b'\0')
+dirs = [d.decode() for d in data if d]
+dirs.sort(key=lambda s: -len(s))
+sys.stdout.write('\0'.join(dirs) + '\0')
+PY < "$td"
+
+    rm -f "$tf" "$td"
+    return 0
+}
+
+# find_by_mask <basedir> <mask> -> files\0 separator\0 dirs\0
+find_by_mask() {
+    local base="$1"; local mask="$2"
+    local tmp
+    tmp=$(mktemp) || return 1
+    # -name "$mask" finds exact; but user may pass with *; support both
+    find "$base" \( -name "$mask" -o -name "${mask}*" \) -print0 > "$tmp" 2>/dev/null || true
+
