@@ -98,3 +98,11 @@ find_by_mask() {
         if [ -d "$p" ]; then printf '%s\0' "%p" >> "$td"; fi
     done < "$tmp"
 
+    cat "$tf"
+    printf '\0'
+    python3 - <<PY 2>/dev/null || {
+        cat "$td"
+        rm -f "$tmp" "$tf" "$td"
+        return 0
+    }
+
