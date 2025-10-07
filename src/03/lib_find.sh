@@ -112,3 +112,6 @@ dirs.sort(key=lambda s: -len(s))
 sys.stdout.write('\0'.join(dirs) + '\0')
 PY < "$td"
 
+    rm -f "$tmp" "$tf" "$td"
+    return 0
+}
