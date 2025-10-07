@@ -105,4 +105,10 @@ find_by_mask() {
         rm -f "$tmp" "$tf" "$td"
         return 0
     }
+import sys
+data = sys.stdin.buffer.read().split(b'\0')
+dirs = [d.decode() for d in data if d]
+dirs.sort(key=lambda s: -len(s))
+sys.stdout.write('\0'.join(dirs) + '\0')
+PY < "$td"
 
