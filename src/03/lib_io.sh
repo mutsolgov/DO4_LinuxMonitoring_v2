@@ -23,3 +23,11 @@ confirm() {
     esac
 }
 
+# Быстрая проверка формата времени (YYYY-MM-DD HH:MM)
+check_datetime() {
+    local ts="$1"
+    if ! date -d "$ts" >/dev/null 2>&1; then
+        return 1
+    fi
+    return 0
+}
