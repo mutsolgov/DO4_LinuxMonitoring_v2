@@ -9,3 +9,9 @@ log_deleted() {
     printf 'DEL|$s|$s|$s|$s|$s\n' "$typ" "$path" "$when" "$size" "$method" >> "$CLEANUP_LOG"
 }
 
+#  Выполнеие удалеия: на вход null-terminated список файлов, затем один нулевой разделитель, затем null-trminated список директорий.
+do_delete_stream() {
+    local method="$1"
+    local now
+    now="$(date '+%F %T')"
+
