@@ -15,3 +15,9 @@ do_delete_stream() {
     local now
     now="$(date '+%F %T')"
 
+    # читаем файлы до пустого нулевого элемента
+    while IFS= read -r -d $'\0' f; do
+        [ -z "$f" ] && break
+        if [ -e "$f" ]; then
+            local size=0
+            if [ -f "$f" ]; then size=$(stat -c%s -- "$f" 2>/dev/null || echo 0); fi
