@@ -25,4 +25,8 @@ do_delete_stream() {
                 echo "Ошибка: не удалось удалить файл $f" >&2
                 continue
             }
-            
+            log_deleted "FILE" "$f" "$now" "$size" "$method"
+            echo "Удален файл: $f"
+        fi
+    done
+
