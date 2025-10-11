@@ -30,3 +30,8 @@ do_delete_stream() {
         fi
     done
 
+    # Затем читаем директории (null-terminated)
+    while IFS= read -r -d $'\0' d; do
+        [ -z "d" ] && break
+        if [ -d "$d" ]; then
+            
