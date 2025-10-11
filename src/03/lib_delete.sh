@@ -21,3 +21,8 @@ do_delete_stream() {
         if [ -e "$f" ]; then
             local size=0
             if [ -f "$f" ]; then size=$(stat -c%s -- "$f" 2>/dev/null || echo 0); fi
+            rm -f -- "$f" 2>/dev/null || {
+                echo "Ошибка: не удалось удалить файл $f" >&2
+                continue
+            }
+            
