@@ -10,3 +10,9 @@ source "$DIR/lib_io.sh"
 source "$DIR/lib_find.sh"
 source "$DIR/lib_delete.sh"
 
+# Параметры
+if [ "$#" -lt 1 ]; then
+    error "Укажите режим: 1 (по логу), 2 (по времени), 3 (по маске)."
+    exit 2
+fi
+
