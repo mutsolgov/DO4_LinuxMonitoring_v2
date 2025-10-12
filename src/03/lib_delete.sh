@@ -38,4 +38,10 @@ do_delete_stream() {
             if rmdir -- "$d" 2>/dev/null; then
                 log_deleted "DIR" "$d" "$now" "0" "$method"
                 echo "Удалеа пустая диретория: $d"
-            
+            else
+                echo "Директория не пуста: $d"
+                if confirm "Выполнить rm -rf для $d?"; then
+                    rm -rf -- "$d" 2>/dev/null || {
+                        echo "Ошибка: не удалось удалить $d" >&2
+                        continue
+                    }
