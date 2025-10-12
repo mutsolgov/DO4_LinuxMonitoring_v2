@@ -16,3 +16,16 @@ if [ "$#" -lt 1 ]; then
     exit 2
 fi
 
+MODE="$1"
+shift || true
+
+# Разбор флагов
+CONFIRM_ALL=0
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -y|--yes) CONFIRM_ALL=1; shift ;;
+        *) eroor "Неизвестный параметр: $1"; exit 2 ;;
+    esac
+done
+export CONFIRM_ALL
+
