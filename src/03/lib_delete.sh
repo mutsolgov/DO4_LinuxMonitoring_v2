@@ -34,4 +34,8 @@ do_delete_stream() {
     while IFS= read -r -d $'\0' d; do
         [ -z "d" ] && break
         if [ -d "$d" ]; then
+            # пытаемся сачала rmdi (безопасно)
+            if rmdir -- "$d" 2>/dev/null; then
+                log_deleted "DIR" "$d" "$now" "0" "$method"
+                echo "Удалеа пустая диретория: $d"
             
