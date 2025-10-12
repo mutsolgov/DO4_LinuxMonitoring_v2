@@ -45,3 +45,12 @@ do_delete_stream() {
                         echo "Ошибка: не удалось удалить $d" >&2
                         continue
                     }
+                    log_deleted "DIR" "$d" "$now" "0" "$method"
+                    echo "Удалена директория рекурсивно: $d"
+                else
+                    echo "Пропущена директория: $d"
+                fi
+            fi
+        fi
+    done
+}
