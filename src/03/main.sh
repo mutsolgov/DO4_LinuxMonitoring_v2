@@ -56,4 +56,8 @@ show_preview_stream() {
             echo "$p"
         fi
     done
-    
+    if [ "$cnt" -gt 50 ]; then
+        echo "... и еще $((cnt-50)) объектов"
+    fi
+}
+
