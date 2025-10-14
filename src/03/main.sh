@@ -36,4 +36,13 @@ SENSITIVE=( "/" "/bin" "/sbin" "/etc" "/usr" "/lib" "/lib64" "/boot" )
 check_sensitive_warning() {
     local any=0
     while IFS= read -r -d $'\0' p; do
-       
+        for s in "${SENSITIVE[@]}"; do
+            if [ "$p" = "$s" ] || [[ "$p" == "$s/"* ]]; then
+                echo "В списке присутствует чувствительный путь: $p"
+                any=1
+            fi
+        done
+    done
+    return $any
+}
+
