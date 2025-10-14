@@ -29,3 +29,11 @@ while [ "$#" -gt 0 ]; do
 done
 export CONFIRM_ALL
 
+# Безопасные пути для предупреждения
+SENSITIVE=( "/" "/bin" "/sbin" "/etc" "/usr" "/lib" "/lib64" "/boot" )
+
+# Функция проверки на чувствительные пути - если найдено, просим подтверждение
+check_sensitive_warning() {
+    local any=0
+    while IFS= read -r -d $'\0' p; do
+       
