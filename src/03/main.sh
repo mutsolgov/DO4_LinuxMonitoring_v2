@@ -66,4 +66,9 @@ case "$MODE" in
     # По лог-файлу
     read -r -p "Путь к логу-файлу (по умолчанию ./generator.log): " LOGPATH
     LOGPATH="${LOGPATH:-./generator.log}"
-    if [ ! -f "$LOGPATH" ]; then error "Лог-файл не найден: $LOGPATH"; exit 
+    if [ ! -f "$LOGPATH" ]; then error "Лог-файл не найден: $LOGPATH"; exit 3; fi
+
+    info "Сбор списка по логу $LOGPATH ..."
+    # получаем stream: files\0 sep \0 dirs\0
+    stream="$(parse_log "$LOGPATH")"
+
