@@ -46,3 +46,14 @@ check_sensitive_warning() {
     return $any
 }
 
+# Вспомогательная: показать превью (до 50)
+show_preview_stream() {
+    local cnt=0
+    while IFS= read -r -d $'\0' p; do
+        [ -z "$p" ] && break
+        cnt=$((cnt+1))
+        if [ "$cnt" -le 50 ]; then
+            echo "$p"
+        fi
+    done
+    
