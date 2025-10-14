@@ -61,3 +61,9 @@ show_preview_stream() {
     fi
 }
 
+case "$MODE" in
+    1)
+    # По лог-файлу
+    read -r -p "Путь к логу-файлу (по умолчанию ./generator.log): " LOGPATH
+    LOGPATH="${LOGPATH:-./generator.log}"
+    if [ ! -f "$LOGPATH" ]; then error "Лог-файл не найден: $LOGPATH"; exit 
