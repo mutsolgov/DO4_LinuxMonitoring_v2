@@ -93,3 +93,9 @@ case "$MODE" in
         fi
     }
 
+    if ! confirm "Подтвердите удаление объектов, перечисленных в логе."; then
+        info "Отмена"
+        rm -f "$tmp"
+        exit 0
+    fi
+
