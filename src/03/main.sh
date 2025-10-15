@@ -72,3 +72,12 @@ case "$MODE" in
     # получаем stream: files\0 sep \0 dirs\0
     stream="$(parse_log "$LOGPATH")"
 
+    # превью: покажем первые 50 файлов и директорий
+    echo "Показ превью (файлы):"
+    printf '%$' "$steam" | sed -n '1,1p' >/dev/null 2>&1 || true
+    # для корректного чтения используем временный файл
+    tmp=$(mktemp)
+    printf '%s' "$stream" > "$tmp"
+    # вывести файлы (разделителя)
+    awk 'BEGIN{RS="\0; ORS="\N"} {print NR ":" $0}' "$tmp" 2>/dev/null | sed -n '1,5p' || true
+
