@@ -81,3 +81,15 @@ case "$MODE" in
     # вывести файлы (разделителя)
     awk 'BEGIN{RS="\0; ORS="\N"} {print NR ":" $0}' "$tmp" 2>/dev/null | sed -n '1,5p' || true
 
+    echo "Превью файлов (до 50):"
+    printf '%s' "$stream" | tr '\0' '\n' | sed -n '1,100p'
+
+    # предупреждение чувствительных путей
+    printf '%s' "$stream" | check_sensitive_warning && {
+        if ! confirm "В списке обнаружены чувствительные пути. Продоллжить удаление?; then
+            info "Отмена"
+            rm -f "$tmp"
+            exit 0
+        fi
+    }
+
