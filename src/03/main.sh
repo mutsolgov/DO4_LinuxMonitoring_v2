@@ -111,3 +111,9 @@ case "$MODE" in
         BASEDIR="${BASEDIR:-.}"
         if [ ! -d "$BASEDIR" ]; then error "Директория не найдена: $BASEDIR"; exit 4; fi
 
+        echo "Введите время в формате: YYYY-MM-DD HH:MM"
+        read -r -p "Start (начало): " START
+        read -r -p "End (конец): " END
+        if ! check_datetime "$START"; then error "Неверный формат Start"; exit 5; fi
+        if ! check_datetime "$END"; then error "Неверный формат End"; exit 5; fi
+
