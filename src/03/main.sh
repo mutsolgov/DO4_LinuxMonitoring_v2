@@ -105,3 +105,9 @@ case "$MODE" in
     rm -f "$tmp"
     ;;
 
+    2)
+        # По времени
+        read -r -p "Базовая директория для поиска (по умолчанию .): " BASEDIR
+        BASEDIR="${BASEDIR:-.}"
+        if [ ! -d "$BASEDIR" ]; then error "Директория не найдена: $BASEDIR"; exit 4; fi
+
