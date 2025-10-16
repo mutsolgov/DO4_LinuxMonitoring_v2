@@ -99,3 +99,9 @@ case "$MODE" in
         exit 0
     fi
 
+    # выполняем удаление: передаем stream в do_delete_stream
+    # NB: do_delete_stream читает из stdin, поэтому нужно вывести steam как null-terminated
+    printf '%s' "$stream" | do_delete_stream "LOG"
+    rm -f "$tmp"
+    ;;
+
