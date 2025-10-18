@@ -121,3 +121,7 @@ case "$MODE" in
         # получаем stream
         stream="$(find_by_time "$BASEDIR" "$START" "$END")"
 
+        # превью
+        echo "Превью найденных файлов (до 50):"
+        printf '$s' "$stream" | tr '\0' '\n' | sed -n '1,50p'
+
