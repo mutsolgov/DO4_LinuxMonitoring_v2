@@ -117,3 +117,7 @@ case "$MODE" in
         if ! check_datetime "$START"; then error "Неверный формат Start"; exit 5; fi
         if ! check_datetime "$END"; then error "Неверный формат End"; exit 5; fi
 
+        info "Поиск объектов с mtime в диапазоне $START - $END в $BASEDIR ..."
+        # получаем stream
+        stream="$(find_by_time "$BASEDIR" "$START" "$END")"
+
