@@ -141,3 +141,6 @@ case "$MODE" in
         read -r -p "Введете маску имени (пример: aaaz_021121 или aaaz_021121*) " MASK
         [ -n "$MASK" ] || { error "Пустая маска"; exit 6; }
 
+        info "Поиск по маске $MASK в $BASEDIR ..."
+        stream="$(find_by_mask "$BASEDIR" "$MASK")"
+
