@@ -144,3 +144,6 @@ case "$MODE" in
         info "Поиск по маске $MASK в $BASEDIR ..."
         stream="$(find_by_mask "$BASEDIR" "$MASK")"
 
+        echo "Превью найденных объектов (до 50):"
+        printf '%s' "$stream" | tr '\0' '\n' | sed -n '1,50p'
+
