@@ -133,3 +133,11 @@ case "$MODE" in
         printf '%s' "$stream" | do_delete_stream "TIME"
         ;;
 
+    3)
+        # по маске
+        read -r -p "Базовая директория для поиска (по умолчанию .) " BASEDIR
+        BASEDIR="${BASEDIR:-.}"
+        if [ ! -d "$BASEDIR" ]; then error "Директория не найдена: $BASEDIR"; exit 4; fi
+        read -r -p "Введете маску имени (пример: aaaz_021121 или aaaz_021121*) " MASK
+        [ -n "$MASK" ] || { error "Пустая маска"; exit 6; }
+
