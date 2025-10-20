@@ -152,3 +152,7 @@ case "$MODE" in
             exit 0
         fi
 
+        printf '%s' "$stream" | do_delete_stream "MASK"
+        ;;
+
+    *)
