@@ -147,3 +147,8 @@ case "$MODE" in
         echo "Превью найденных объектов (до 50):"
         printf '%s' "$stream" | tr '\0' '\n' | sed -n '1,50p'
 
+        if ! confirm "Подтвердите удаление найденных объектов"; then
+            info "Отмена"
+            exit 0
+        fi
+
