@@ -161,3 +161,5 @@ case "$MODE" in
         ;;
 esac
 
+info "Готово. Лог удаления: ${CLEANUP_LOG:-./cleanup.log}"
+
